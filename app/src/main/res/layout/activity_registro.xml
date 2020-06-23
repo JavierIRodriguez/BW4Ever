@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorDarkest"
+    tools:context=".RegistroActivity">
+
+    <TextView
+        android:text="BW4Ever"
+        android:textSize="34sp"
+        android:layout_margin="16dp"
+        android:textColor="#ffff"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="Registro"
+        android:textSize="24sp"
+        android:textColor="@color/colorMedium"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/txt_registroMail"
+        android:hint="Correo"
+        android:inputType="textEmailAddress"
+        android:layout_margin="16dp"
+        android:textColorHint="#80FFFFFF"
+        android:textColor="#ffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/txt_registroNombre"
+        android:hint="Nombre"
+        android:inputType="text"
+        android:layout_margin="16dp"
+        android:textColorHint="#80FFFFFF"
+        android:textColor="#ffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/txt_registroPassword"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:layout_margin="16dp"
+        android:textColorHint="#80FFFFFF"
+        android:textColor="#ffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_registro"
+        android:text=" Registrar Usuario "
+        android:textAllCaps="false"
+        android:onClick="registrarUsuario"
+        android:layout_margin="16dp"
+        android:background="@color/colorBrighter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

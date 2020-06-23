@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    android:background="@color/colorDarkest"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:text="BW4Ever"
+        android:textSize="34sp"
+        android:gravity="center"
+        android:textColor="#ffff"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/txt_loginMail"
+        android:hint="Correo"
+        android:inputType="textEmailAddress"
+        android:layout_margin="16dp"
+        android:textColorHint="#80FFFFFF"
+        android:textColor="#ffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/txt_loginPassword"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:layout_margin="16dp"
+        android:textColorHint="#80FFFFFF"
+        android:textColor="#ffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:text=" Iniciar Sesión "
+        android:textAllCaps="false"
+        android:onClick="iniciarSesion"
+        android:background="@color/colorBrighter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_marginTop="24dp"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:text="Registrarse"
+        android:textColor="#ffff"
+        android:onClick="cargarRegistro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>
