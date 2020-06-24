@@ -55,11 +55,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <EditText
+        android:id="@+id/txt_registroConfirmarPass"
+        android:hint="Confirmar Contraseña"
+        android:inputType="textPassword"
+        android:layout_margin="16dp"
+        android:textColorHint="#80FFFFFF"
+        android:textColor="#ffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <Button
         android:id="@+id/btn_registro"
         android:text=" Registrar Usuario "
         android:textAllCaps="false"
         android:onClick="registrarUsuario"
+        android:padding="10dp"
         android:layout_margin="16dp"
         android:background="@color/colorBrighter"
         android:layout_width="wrap_content"

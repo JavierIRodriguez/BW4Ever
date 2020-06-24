@@ -40,7 +40,8 @@
 
     <Button
         android:id="@+id/btn_login"
-        android:text=" Iniciar Sesión "
+        android:text="Iniciar Sesión"
+        android:padding="10dp"
         android:textAllCaps="false"
         android:onClick="iniciarSesion"
         android:background="@color/colorBrighter"
