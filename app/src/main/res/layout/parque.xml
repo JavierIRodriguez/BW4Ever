@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+
+    <TextView
+        android:id="@+id/item_nombreparque"
+        android:textSize="30sp"
+        android:text="Nombre Parque"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/item_latitud"
+        android:textSize="18sp"
+        android:text="-35"
+        android:layout_below="@+id/item_nombreparque"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/item_longitud"
+        android:textSize="18sp"
+        android:text="-70"
+        android:layout_below="@+id/item_latitud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/item_descripcion"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="4dp"/>
+
+
+</RelativeLayout>
