@@ -1,14 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorDarkest"
+    android:orientation="vertical"
     tools:context=".vistas.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="HOME" />
 
-</FrameLayout>
+
+    <TextView
+        android:id="@+id/recientes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Parques Recientes:"
+        android:textColor="#ffff"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/p1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recientes"
+        android:layout_marginLeft="16dp"
+        android:text="Barras Alameda"
+        android:textColor="#ffff"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/separador"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/p1"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="200dp"/>
+
+    <TextView
+        android:id="@+id/historial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+
+        android:layout_below="@+id/separador"
+        android:text="Historial de Rutinas:"
+        android:textColor="#ffff"
+        android:textSize="24sp" />
+    <CheckBox
+        android:id="@+id/checkbox1"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/historial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffff"
+        android:checked="true" />
+    <TextView
+        android:id="@+id/e1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/checkbox1"
+        android:layout_below="@id/historial"
+        android:layout_marginTop="16dp"
+        android:text="Flexiones - Series 5 "
+        android:textColor="#ffff"
+        android:textSize="20sp" />
+
+    <CheckBox
+        android:id="@+id/checkbox2"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/e1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffff"
+        android:checked="true" />
+    <TextView
+        android:id="@+id/e2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/checkbox1"
+        android:layout_below="@id/e1"
+        android:layout_marginTop="16dp"
+        android:text="Dominadas - Series 10 "
+        android:textColor="#ffff"
+        android:textSize="20sp" />
+
+
+</RelativeLayout>

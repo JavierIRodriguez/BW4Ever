@@ -9,19 +9,32 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.bw4ever.vistas.HomeFragment;
 import com.example.bw4ever.vistas.OpcionesFragment;
 import com.example.bw4ever.vistas.RutinasFragment;
+import com.example.bw4ever.vistas.agregarParqueActivity;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class PrincipalActivity extends AppCompatActivity {
-
+    // --- Elementos del Layout ---
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
     AdapterPager adapterPager;
+    // --- ---
+
+    // --- Fragments del Layout ---
+    private RutinasFragment rutinasFragment;
+    // --- ---
+
+    public static final int CODE_GALLERY= 1; //Constante de Acción para acceder a galería, al agregar Rutinas.
+
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -32,19 +45,32 @@ public class PrincipalActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab_bar);
         viewPager = findViewById(R.id.view_pager);
 
-        setSupportActionBar(toolbar);
+        firebaseAuth = FirebaseAuth.getInstance();
 
+        setSupportActionBar(toolbar);
         adapterPager = new AdapterPager(getSupportFragmentManager());
         viewPager.setAdapter(adapterPager);
-
         tabLayout.setupWithViewPager(viewPager);
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_home);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_map);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_rutinas);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_opciones);
+
+        setTitle("BW4Ever - "+ firebaseAuth.getCurrentUser().getEmail() ); //Coloca título.
     }
 
+    public void cerrarSesion(View view) {
+        firebaseAuth.signOut();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
+    public void agregarParque(View view) {
+        startActivity(new Intent(this, agregarParqueActivity.class));
+    }
+
+    // --- Clase que Genera cada Fragment ---
     public class AdapterPager extends FragmentPagerAdapter{
 
         public AdapterPager(@NonNull FragmentManager fm) {
@@ -92,4 +118,18 @@ public class PrincipalActivity extends AppCompatActivity {
             return 4;
         }
     }
+    // --- Fin Clase que Genera cada Fragment ---
+
+    // *** Fragments al cargar Foto de Perfil pierden el foco, por eso se requiere éste método acá ***
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case CODE_GALLERY: //Caso Acceder a la Galería.
+                rutinasFragment.onActivityResult(requestCode, resultCode, data);
+                break;
+        }
+    }
+    // --- ---
 }

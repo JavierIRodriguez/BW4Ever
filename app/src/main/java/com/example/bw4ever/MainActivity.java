@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.bw4ever.adapter.EjercicioAdapter;
-import com.example.bw4ever.modelo.Ejercicio;
-import com.example.bw4ever.modelo.EjercicioService;
+import com.example.bw4ever.adapter.RutinaAdapter;
+import com.example.bw4ever.modelo.Rutina;
+import com.example.bw4ever.modelo.RutinaService;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         lm.setOrientation(RecyclerView.VERTICAL);
         rc.setLayoutManager(lm);
 
-        EjercicioAdapter adapter = new EjercicioAdapter(EjercicioService.ejercicioList,
+        RutinaAdapter adapter = new RutinaAdapter(RutinaService.rutinaList,
                 R.layout.item,this);
         rc.setAdapter(adapter);
         cargaEjerciciosFirebase();
@@ -48,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
          reference.addChildEventListener(new ChildEventListener() {
              @Override
              public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                 Ejercicio ejercicio = dataSnapshot.getValue(Ejercicio.class);
-                 ejercicio.setId(dataSnapshot.getKey());
+                 Rutina rutina = dataSnapshot.getValue(Rutina.class);
+                 rutina.setId(dataSnapshot.getKey());
 
-                 if (!EjercicioService.ejercicioList.contains(ejercicio)) {
-                     EjercicioService.addEjercicio(ejercicio);
+                 if (!RutinaService.rutinaList.contains(rutina)) {
+                     RutinaService.addRutina(rutina);
                  }
 
                  rc.getAdapter().notifyDataSetChanged();
@@ -60,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
              @Override
              public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                 Ejercicio ejercicio = dataSnapshot.getValue(Ejercicio.class);
-                 ejercicio.setId(dataSnapshot.getKey());
+                 Rutina rutina = dataSnapshot.getValue(Rutina.class);
+                 rutina.setId(dataSnapshot.getKey());
 
-                 if (EjercicioService.ejercicioList.contains(ejercicio)) {
-                     EjercicioService.updateEjercicio(ejercicio);
+                 if (RutinaService.rutinaList.contains(rutina)) {
+                     RutinaService.updateRutina(rutina);
                  }
 
                  rc.getAdapter().notifyDataSetChanged();
@@ -73,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
 
              @Override
              public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                 Ejercicio ejercicio = dataSnapshot.getValue(Ejercicio.class);
-                 ejercicio.setId(dataSnapshot.getKey());
+                 Rutina rutina = dataSnapshot.getValue(Rutina.class);
+                 rutina.setId(dataSnapshot.getKey());
 
-                 if (EjercicioService.ejercicioList.contains(ejercicio)) {
-                     EjercicioService.removeEjercicio(ejercicio);
+                 if (RutinaService.rutinaList.contains(rutina)) {
+                     RutinaService.removeRutina(rutina);
                  }
 
                  rc.getAdapter().notifyDataSetChanged();
@@ -97,13 +96,13 @@ public class MainActivity extends AppCompatActivity {
      }
 
      public void agregarEjercicio(View view) {
-         Ejercicio ejercicio = new Ejercicio();
-         ejercicio.setNombre(txtnombre.getText().toString());
-         ejercicio.setDescripcion(txtdescripcion.getText().toString());
+         Rutina rutina = new Rutina();
+         rutina.setNombre(txtnombre.getText().toString());
+         rutina.setDescripcion(txtdescripcion.getText().toString());
 
          FirebaseDatabase database = FirebaseDatabase.getInstance();
          DatabaseReference reference = database.getReference("Ejercicios");
-         reference.push().setValue(ejercicio);
+         reference.push().setValue(rutina);
 
     }
 }

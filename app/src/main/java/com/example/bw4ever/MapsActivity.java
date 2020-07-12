@@ -1,28 +1,32 @@
 package com.example.bw4ever;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.location.LocationManager;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.graphics.Camera;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bw4ever.modelo.Ejercicio;
-import com.example.bw4ever.modelo.EjercicioService;
 import com.example.bw4ever.modelo.Parque;
-import com.example.bw4ever.modelo.ParqueService;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.ChildEventListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,9 +38,11 @@ import java.util.List;
 
 public class MapsActivity extends Fragment implements OnMapReadyCallback {
 
+    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1;
     private GoogleMap mMap;
     private DatabaseReference mDatabase;
     private List<Parque> parquesList = new ArrayList<>();
+    private FusedLocationProviderClient mFusedLocationClient;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +51,9 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
+        getLocation();
         getParques();
         return view;
     }
@@ -85,13 +94,83 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        LatLng inicio = new LatLng(-35.4213, -71.6746);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(inicio,13));
+    private void getLocation(){
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this.getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
 
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this.getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this.getActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                             /*   Parque parque = new Parque();
+                                parque.setNombre("Tu Ubicación");
+                                parque.setLatitud(location.getLatitude());
+                                parque.setLongitud(location.getLongitude());
+
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference reference = database.getReference("Parques");
+                                reference.push().setValue(parque);*/
+                            }
+                        }
+                    });
+        }
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+        }
+    }
+
+   @Override
+   public void onMapReady(GoogleMap googleMap) {
+       mMap = googleMap;
+       mMap.setMyLocationEnabled(true);
+       mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+           @Override
+           public void onMyLocationChange(Location location) {
+               CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+               CameraUpdate zoom = CameraUpdateFactory.zoomTo(14);
+               mMap.moveCamera(center);
+               mMap.animateCamera(zoom);
+           }
+       });}
 
 }

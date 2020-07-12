@@ -1,14 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vistas.OpcionesFragment">
+    android:background="@color/colorDarkest"
+    android:orientation="vertical"
+    tools:context=".vistas.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/titulo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="OCPIONES" />
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Configuración"
+        android:textColor="#ffff"
+        android:textSize="30sp" />
 
-</FrameLayout>
+    <View
+        android:id="@+id/separador1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/titulo"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:id="@+id/editar_perfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/separador1"
+        android:layout_margin="16dp"
+        android:text="Editar Perfil"
+        android:textColor="#ffff"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_cuenta"
+        android:layout_below="@id/separador1"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="350dp"/>
+
+
+    <View
+        android:id="@+id/separador2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/editar_perfil"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="12dp"/>
+    <TextView
+        android:id="@+id/Privacidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/separador2"
+        android:layout_margin="16dp"
+        android:text="Privacidad"
+        android:textColor="#ffff"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_privacidad"
+        android:layout_below="@id/separador2"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="350dp"/>
+
+    <View
+        android:id="@+id/separador3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/Privacidad"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="12dp"/>
+    <TextView
+        android:id="@+id/notificaciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/separador3"
+        android:layout_margin="16dp"
+        android:text="Notificaciones"
+        android:textColor="#ffff"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/icon_noti"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_notificaciones"
+        android:layout_below="@id/separador3"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="350dp"/>
+
+    <View
+        android:id="@+id/separador4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/notificaciones"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:id="@+id/bt_salir"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/separador4"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="30dp"
+        android:background="@color/colorBrighter"
+        android:text="Cerrar Sesión"
+        android:onClick="cerrarSesion"
+        android:textAllCaps="false" />
+
+
+</RelativeLayout>

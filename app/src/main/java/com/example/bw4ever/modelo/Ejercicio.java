@@ -1,21 +1,10 @@
 package com.example.bw4ever.modelo;
 
-import androidx.annotation.Nullable;
-
 public class Ejercicio {
-    private String id;
     private String nombre;
-    private String descripcion;
+    private int repeticiones;
 
     public Ejercicio() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getNombre() {
@@ -26,16 +15,11 @@ public class Ejercicio {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public int getRepeticiones() {
+        return repeticiones;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        return id.equals(((Ejercicio)obj).id);
+    public void setRepeticiones(int repeticiones) {
+        this.repeticiones = repeticiones;
     }
 }

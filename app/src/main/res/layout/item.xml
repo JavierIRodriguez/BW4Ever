@@ -5,25 +5,41 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp">
 
+    <ImageView
+        android:id="@+id/item_imagen"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/no_image">
+    </ImageView>
+
     <TextView
         android:id="@+id/item_nombre"
-        android:textSize="30sp"
-        android:text="Sentadillas"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:textColor="#ffff"
+        android:textSize="30sp"
+        android:text="Ejercicio a Agregar"
+        android:layout_toRightOf="@id/item_imagen"/>
     <TextView
         android:id="@+id/item_descripcion"
-        android:textSize="18sp"
-        android:text="Lorem ipsum ahsdajsldhik lasjdasdkñ jaksjdiqh."
-        android:layout_below="@+id/item_nombre"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:textColor="#ffff"
+        android:layout_marginRight="12dp"
+        android:textSize="18sp"
+        android:text="Descripción de la rutina para el ejercicio a agregar"
+        android:layout_below="@+id/item_nombre"
+        android:layout_toRightOf="@id/item_imagen"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/item_descripcion"
         android:background="@color/colorPrimary"
-        android:layout_marginTop="4dp"/>
-
+        android:layout_marginTop="10dp"
+        />
 
 </RelativeLayout>

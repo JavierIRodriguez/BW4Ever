@@ -10,10 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bw4ever.R;
-import com.example.bw4ever.modelo.Ejercicio;
 import com.example.bw4ever.modelo.Parque;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

@@ -55,7 +55,7 @@
         android:textSize="18sp"
         android:gravity="center"
         android:text="Registrarse"
-        android:textColor="#ffff"
+        android:textColor="@color/colorAccent"
         android:onClick="cargarRegistro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

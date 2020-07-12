@@ -33,6 +33,11 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+        if (firebaseAuth.getCurrentUser() != null){
+            startActivity(new Intent(LoginActivity.this, PrincipalActivity.class));
+            finish();
+        }
     }
 
     public void iniciarSesion(View view) {

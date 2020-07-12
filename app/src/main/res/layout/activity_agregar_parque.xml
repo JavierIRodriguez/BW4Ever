@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorDarkest"
+    tools:context=".vistas.RutinasFragment">
+
+    <TextView
+        android:id="@+id/txtagregaparque"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Agregar un Parque"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="16dp"
+        android:textColor="#ffff"
+        android:textSize="30sp"/>
+
+    <EditText
+        android:id="@+id/txtnombre"
+        android:hint="Nombre del Nuevo Parque"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="#80FFFFFF"
+        android:textColor="#ffff"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_below="@id/txtagregaparque" />
+
+
+    <ImageView
+        android:id="@+id/foto_parque"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_gravity="left"
+        android:scaleType="centerCrop"
+        android:src="@drawable/no_image"
+        android:layout_below="@id/txtnombre" />
+
+    <TextView
+        android:id="@+id/txt_agregarParque"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:textColor="#80FFFFFF"
+        android:text="Debe cargar al menos una fotografía del Parque."
+        android:textAllCaps="false"
+        android:enabled="false"
+        android:layout_below="@id/txtnombre"
+        android:layout_toRightOf="@id/foto_parque" />
+
+    <Button
+        android:id="@+id/bt_galeria"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="12dp"
+        android:background="@color/colorBrighter"
+        android:layout_gravity="right"
+        android:text="Cargar Foto y agregar Parque"
+        android:textAllCaps="false"
+        android:layout_below="@id/txt_agregarParque"
+        android:layout_toRightOf="@id/foto_parque"/>
+
+    <View
+        android:id="@+id/separador1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/foto_parque"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="12dp"/>
+
+</RelativeLayout>

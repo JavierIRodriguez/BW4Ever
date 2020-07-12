@@ -18,14 +18,14 @@
 
     <EditText
         android:id="@+id/txtnombre"
-        android:hint="Nombre del ejercicio"
+        android:hint="Nombre del rutina"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
 
     <EditText
         android:id="@+id/txtdescripcion"
-        android:hint="Descripción del ejercicio"
+        android:hint="Descripción del rutina"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

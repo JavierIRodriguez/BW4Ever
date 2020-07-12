@@ -10,16 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bw4ever.R;
-import com.example.bw4ever.modelo.Ejercicio;
+import com.example.bw4ever.modelo.Rutina;
 
 import java.util.List;
 
-public class EjercicioAdapter extends RecyclerView.Adapter<EjercicioAdapter.EjercicioHolder> {
-    List<Ejercicio> lista;
+public class RutinaAdapter extends RecyclerView.Adapter<RutinaAdapter.RutinaHolder> {
+    List<Rutina> lista;
     int item_layout;
     Activity activity;
 
-    public EjercicioAdapter(List<Ejercicio> lista, int item_layout, Activity activity) {
+    public RutinaAdapter(List<Rutina> lista, int item_layout, Activity activity) {
         this.lista = lista;
         this.item_layout = item_layout;
         this.activity = activity;
@@ -27,16 +27,16 @@ public class EjercicioAdapter extends RecyclerView.Adapter<EjercicioAdapter.Ejer
 
     @NonNull
     @Override
-    public EjercicioHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RutinaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(item_layout, parent, false);
-        return new EjercicioHolder(view);
+        return new RutinaHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EjercicioHolder holder, int position) {
-        Ejercicio ejercicio = lista.get(position);
-        holder.txtnombre.setText(ejercicio.getNombre());
-        holder.txtdescripcion.setText(ejercicio.getDescripcion());
+    public void onBindViewHolder(@NonNull RutinaHolder holder, int position) {
+        Rutina rutina = lista.get(position);
+        holder.txtnombre.setText(rutina.getNombre());
+        holder.txtdescripcion.setText(rutina.getDescripcion());
     }
 
     @Override
@@ -44,9 +44,9 @@ public class EjercicioAdapter extends RecyclerView.Adapter<EjercicioAdapter.Ejer
         return lista.size();
     }
 
-    public class EjercicioHolder extends RecyclerView.ViewHolder{
+    public class RutinaHolder extends RecyclerView.ViewHolder{
         TextView txtnombre, txtdescripcion;
-        public EjercicioHolder(@NonNull View itemView) {
+        public RutinaHolder(@NonNull View itemView) {
             super(itemView);
             //inicializar
             txtnombre = itemView.findViewById(R.id.item_nombre);
