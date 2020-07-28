@@ -15,9 +15,11 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.bw4ever.PrincipalActivity;
@@ -47,13 +49,11 @@ public class RutinasFragment extends Fragment {
     // --- Elementos del Fragment ---
     RecyclerView rc;
     EditText txtnombre, txtdescripcion;
+    Spinner spinnerdificultad;
     ImageView foto;
-    Button btnagregar, btngaleria;
+    ImageView rutina;
+    Button btngaleria;
     Uri uri_foto;
-    // --- ---
-
-    // --- Rutina a insertar ---
-    final static Rutina RUTINA = new Rutina();
     // --- ---
 
     @Override
@@ -65,8 +65,13 @@ public class RutinasFragment extends Fragment {
         // --- Inicializar los controles ---
         txtnombre = view.findViewById(R.id.txtnombre);
         txtdescripcion = view.findViewById(R.id.txtdescripcion);
+        spinnerdificultad = view.findViewById(R.id.spinnerdificultad);
         foto = view.findViewById(R.id.foto_rutina);
         btngaleria = view.findViewById(R.id.bt_galeria);
+        rutina = view.findViewById(R.id.item_imagen);
+
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.opciones, R.layout.spinner_dificultad_rutina);
+        spinnerdificultad.setAdapter(spinnerAdapter);
         // --- ---
 
         // --- Botón Abrir Galería ---
@@ -74,7 +79,7 @@ public class RutinasFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI); //Intent que permite trabajar con elementos externos en base a URI.
-                startActivityForResult(intent, PrincipalActivity.CODE_GALLERY); //Desde Alumno_Principal, obtengo el código que determina usar Galería.
+                startActivityForResult(intent, PrincipalActivity.CODE_GALLERY); //Desde Principal, obtengo el código que determina usar Galería.
             }
         });
         // --- ---
@@ -152,22 +157,13 @@ public class RutinasFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // --- Extraer valores ---
-        PrincipalActivity principalActivity = (PrincipalActivity) getActivity();
-        // --- ---
-
-        if (txtnombre.getText().toString().isEmpty() && txtdescripcion.getText().toString().isEmpty()){
-            Toast.makeText(getActivity(), "Ingrese Nombre y Descripción para la Rutina", Toast.LENGTH_SHORT).show();
+        if (txtnombre.getText().toString().isEmpty() && txtdescripcion.getText().toString().isEmpty() && spinnerdificultad.getSelectedItem().toString().contains("Seleccione")){
+            Toast.makeText(getActivity(), "Ingrese Nombre, Descripción y Dificultad para la Rutina", Toast.LENGTH_SHORT).show();
         } else {
             // --- Parámetros de Conexión al Storage ---
             StorageReference storage = FirebaseStorage.getInstance().getReference(); //Inicializa el Storage de Firebase.
             StorageReference folder = storage.child("IMG_Rutinas"); //Crea carpeta donde se guardará la imagen.
             StorageReference photo = folder.child(new Date().toString().trim()+""+txtnombre.getText().toString()); //Crea el nombre de la imagen.
-            // --- ---
-
-            // --- Parámetros de Conexión a la Base de Datos
-            FirebaseDatabase database = FirebaseDatabase.getInstance(); //Inicializa la Database Realtime de Firebase.
-            final DatabaseReference reference = database.getReference("Rutinas"); //Raíz de la BD, es como definir Tabla.
             // --- ---
 
             switch (requestCode) {
@@ -195,6 +191,7 @@ public class RutinasFragment extends Fragment {
                                 rutina.setId(new Date().toString().trim()+"_"+txtnombre.getText().toString());
                                 rutina.setNombre(txtnombre.getText().toString());
                                 rutina.setDescripcion(txtdescripcion.getText().toString());
+                                rutina.setDificultad(spinnerdificultad.getSelectedItem().toString());
                                 rutina.setUrl_foto(downloadUri.toString()); //Ingresa la URL de la Foto a la rutina.
 
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();

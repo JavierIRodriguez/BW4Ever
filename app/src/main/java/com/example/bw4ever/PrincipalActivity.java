@@ -12,7 +12,10 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.example.bw4ever.vistas.AcercaDeActivity;
+import com.example.bw4ever.vistas.EditarPerfilActivity;
 import com.example.bw4ever.vistas.HomeFragment;
 import com.example.bw4ever.vistas.OpcionesFragment;
 import com.example.bw4ever.vistas.RutinasFragment;
@@ -24,6 +27,7 @@ public class PrincipalActivity extends AppCompatActivity {
     // --- Elementos del Layout ---
     Toolbar toolbar;
     TabLayout tabLayout;
+    ImageView usuario;
     ViewPager viewPager;
     AdapterPager adapterPager;
     // --- ---
@@ -44,7 +48,6 @@ public class PrincipalActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.tool_bar);
         tabLayout = findViewById(R.id.tab_bar);
         viewPager = findViewById(R.id.view_pager);
-
         firebaseAuth = FirebaseAuth.getInstance();
 
         setSupportActionBar(toolbar);
@@ -57,7 +60,8 @@ public class PrincipalActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_rutinas);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_opciones);
 
-        setTitle("BW4Ever - "+ firebaseAuth.getCurrentUser().getEmail() ); //Coloca título.
+        //setTitle("BW4Ever - "+ firebaseAuth.getCurrentUser().getEmail() ); //Coloca título.
+        setTitle("BW4Ever - "+ firebaseAuth.getCurrentUser().getDisplayName() ); //Coloca título.
     }
 
     public void cerrarSesion(View view) {
@@ -68,6 +72,14 @@ public class PrincipalActivity extends AppCompatActivity {
 
     public void agregarParque(View view) {
         startActivity(new Intent(this, agregarParqueActivity.class));
+    }
+
+    public void editarPerfil(View view) {
+        startActivity(new Intent(this, EditarPerfilActivity.class));
+    }
+
+    public void acercaDe(View view) {
+        startActivity(new Intent(this, AcercaDeActivity.class));
     }
 
     // --- Clase que Genera cada Fragment ---

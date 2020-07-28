@@ -11,15 +11,16 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        android:background="@color/colorDarker"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            android:theme="@style/ThemeOverlay.AppCompat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout

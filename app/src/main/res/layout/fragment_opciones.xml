@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Configuración"
+        android:text="Opciones"
         android:textColor="#ffff"
         android:textSize="30sp" />
 
@@ -30,9 +30,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/separador1"
         android:layout_margin="16dp"
+        android:onClick="editarPerfil"
         android:text="Editar Perfil"
         android:textColor="#ffff"
-        android:textSize="18sp" />
+        android:textSize="20sp"
+        tools:ignore="OnClick" />
 
     <ImageView
         android:layout_width="30dp"
@@ -58,7 +60,7 @@
         android:layout_margin="16dp"
         android:text="Privacidad"
         android:textColor="#ffff"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <ImageView
         android:layout_width="30dp"
@@ -76,20 +78,22 @@
         android:background="@color/colorAccent"
         android:layout_marginTop="12dp"/>
     <TextView
-        android:id="@+id/notificaciones"
+        android:id="@+id/acerca"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/separador3"
         android:layout_margin="16dp"
-        android:text="Notificaciones"
+        android:text="Acerca de..."
+        android:onClick="acercaDe"
         android:textColor="#ffff"
-        android:textSize="18sp" />
+        android:textSize="20sp"
+        tools:ignore="OnClick" />
 
     <ImageView
         android:id="@+id/icon_noti"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/ic_notificaciones"
+        android:src="@drawable/ic_ayuda"
         android:layout_below="@id/separador3"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="350dp"/>
@@ -98,7 +102,7 @@
         android:id="@+id/separador4"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/notificaciones"
+        android:layout_below="@+id/acerca"
         android:background="@color/colorAccent"
         android:layout_marginTop="12dp"/>
 
@@ -109,10 +113,13 @@
         android:layout_below="@id/separador4"
         android:layout_centerHorizontal="true"
         android:layout_margin="30dp"
-        android:background="@color/colorBrighter"
+        android:background="@color/colorAccent"
+        android:textColor="#ffff"
+        android:textSize="20sp"
         android:text="Cerrar Sesión"
         android:onClick="cerrarSesion"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        tools:ignore="OnClick" />
 
 
 </RelativeLayout>

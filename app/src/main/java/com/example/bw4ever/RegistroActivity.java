@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,10 +14,11 @@ import android.widget.Toast;
 import com.example.bw4ever.modelo.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,6 +30,7 @@ public class RegistroActivity extends AppCompatActivity {
     EditText txtNombre, txtCorreo, txtPassword, txtConf;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
+    FirebaseUser usuario;
 
     ProgressDialog progressDialog;
 
@@ -46,6 +50,7 @@ public class RegistroActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
+
     }
 
     public boolean checkEmail (String _correo){
@@ -83,13 +88,11 @@ public class RegistroActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        Usuario user = new Usuario();
-                                        user.setNombre(nombre);
-                                        user.setCorreo(correo);
-                                        user.setPassword(password);
+                                        usuario=firebaseAuth.getInstance().getCurrentUser();
+                                        String id =usuario.getUid();
 
-                                        DatabaseReference ref = firebaseDatabase.getReference("Usuarios");
-                                        ref.push().setValue(user);
+                                        setDisplayName();
+                                        guardarUsuario(id, nombre, correo, password);
 
                                         Toast.makeText(RegistroActivity.this, "Usuario registrado con exito!", Toast.LENGTH_SHORT).show();
                                     } else {
@@ -105,5 +108,37 @@ public class RegistroActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void setDisplayName(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!=null) {
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(txtNombre.getText().toString())
+                    //.setPhotoUri(Uri.parse("https://firebasestorage.googleapis.com/v0/b/bw4ever-3ce30.appspot.com/o/IMG_Users%2Fnew_user.png?alt=media&token=7feaecc0-cb58-4440-a933-736ac02c2c65"))
+                    .build();
+
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("TESTING", "User profile updated.");
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void guardarUsuario(String userId, String name, String email, String password) {
+        Usuario user = new Usuario();
+        user.setId(userId);
+        user.setNombre(name);
+        user.setCorreo(email);
+        user.setPassword(password);
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase.child("Usuarios").child(userId).setValue(user);
     }
 }

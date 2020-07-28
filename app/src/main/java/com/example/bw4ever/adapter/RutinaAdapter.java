@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bw4ever.R;
 import com.example.bw4ever.modelo.Rutina;
 
@@ -37,6 +40,8 @@ public class RutinaAdapter extends RecyclerView.Adapter<RutinaAdapter.RutinaHold
         Rutina rutina = lista.get(position);
         holder.txtnombre.setText(rutina.getNombre());
         holder.txtdescripcion.setText(rutina.getDescripcion());
+        holder.txtdificultad.setText(rutina.getDificultad());
+        Glide.with(activity).load(rutina.getUrl_foto()).into(holder.imgrutina);
     }
 
     @Override
@@ -45,12 +50,18 @@ public class RutinaAdapter extends RecyclerView.Adapter<RutinaAdapter.RutinaHold
     }
 
     public class RutinaHolder extends RecyclerView.ViewHolder{
-        TextView txtnombre, txtdescripcion;
+        private final Object ListView;
+        TextView txtnombre, txtdescripcion, txtdificultad;
+        ImageView imgrutina;
+        ListView listejercicios;
         public RutinaHolder(@NonNull View itemView) {
             super(itemView);
             //inicializar
             txtnombre = itemView.findViewById(R.id.item_nombre);
+            txtdificultad = itemView.findViewById(R.id.item_dificultad);
             txtdescripcion = itemView.findViewById(R.id.item_descripcion);
+            imgrutina = itemView.findViewById(R.id.item_imagen);
+            ListView = itemView.findViewById(R.id.item_listaejercicios);
         }
     }
 }

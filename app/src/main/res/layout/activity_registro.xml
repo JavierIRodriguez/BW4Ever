@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:text="Registro"
-        android:textSize="24sp"
+        android:text="Registrar Nuevo Usuario"
+        android:textSize="26sp"
         android:textColor="@color/colorMedium"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -32,6 +32,7 @@
         android:layout_margin="16dp"
         android:textColorHint="#80FFFFFF"
         android:textColor="#ffff"
+        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -42,6 +43,7 @@
         android:layout_margin="16dp"
         android:textColorHint="#80FFFFFF"
         android:textColor="#ffff"
+        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -52,6 +54,7 @@
         android:layout_margin="16dp"
         android:textColorHint="#80FFFFFF"
         android:textColor="#ffff"
+        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -62,6 +65,7 @@
         android:layout_margin="16dp"
         android:textColorHint="#80FFFFFF"
         android:textColor="#ffff"
+        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -72,7 +76,9 @@
         android:onClick="registrarUsuario"
         android:padding="10dp"
         android:layout_margin="16dp"
-        android:background="@color/colorBrighter"
+        android:background="@color/colorAccent"
+        android:textColor="#ffff"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
