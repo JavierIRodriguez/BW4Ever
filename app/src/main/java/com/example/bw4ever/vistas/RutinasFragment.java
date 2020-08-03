@@ -1,8 +1,7 @@
 package com.example.bw4ever.vistas;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,34 +10,29 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.bw4ever.PrincipalActivity;
 import com.example.bw4ever.R;
 import com.example.bw4ever.adapter.RutinaAdapter;
 import com.example.bw4ever.modelo.Rutina;
 import com.example.bw4ever.modelo.RutinaService;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.util.Date;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class RutinasFragment extends Fragment {
 
@@ -48,12 +42,10 @@ public class RutinasFragment extends Fragment {
 
     // --- Elementos del Fragment ---
     RecyclerView rc;
-    EditText txtnombre, txtdescripcion;
+    EditText txtnombre;
     Spinner spinnerdificultad;
-    ImageView foto;
-    ImageView rutina;
-    Button btngaleria;
-    Uri uri_foto;
+    ImageButton btnbuscarnombre, btnlimpiarrutinas;
+    Button btncancelar;
     // --- ---
 
     @Override
@@ -64,35 +56,126 @@ public class RutinasFragment extends Fragment {
 
         // --- Inicializar los controles ---
         txtnombre = view.findViewById(R.id.txtnombre);
-        txtdescripcion = view.findViewById(R.id.txtdescripcion);
         spinnerdificultad = view.findViewById(R.id.spinnerdificultad);
-        foto = view.findViewById(R.id.foto_rutina);
-        btngaleria = view.findViewById(R.id.bt_galeria);
-        rutina = view.findViewById(R.id.item_imagen);
-
+        btnbuscarnombre = view.findViewById(R.id.bt_buscar_rutina_nombre);
+        //btnbuscardificultad = view.findViewById(R.id.bt_buscar_rutina_dificultad);
+        btnlimpiarrutinas = view.findViewById(R.id.bt_limpiar_rutinas);
+        btncancelar = view.findViewById(R.id.btncancelarfiltro);
+        btncancelar.setVisibility(View.GONE);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.opciones, R.layout.spinner_dificultad_rutina);
         spinnerdificultad.setAdapter(spinnerAdapter);
         // --- ---
 
-        // --- Botón Abrir Galería ---
-        btngaleria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI); //Intent que permite trabajar con elementos externos en base a URI.
-                startActivityForResult(intent, PrincipalActivity.CODE_GALLERY); //Desde Principal, obtengo el código que determina usar Galería.
-            }
-        });
-        // --- ---
-
-        // --- ---
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
         lm.setOrientation(RecyclerView.VERTICAL);
         rc.setLayoutManager(lm);
 
-        RutinaAdapter adapter = new RutinaAdapter(RutinaService.rutinaList,
-                R.layout.item,getActivity());
+        RutinaAdapter adapter = new RutinaAdapter(RutinaService.rutinaList, R.layout.item,getActivity());
         rc.setAdapter(adapter);
-        cargaRutinasFirebase();
+
+        //cargaRutinasFirebase();
+
+
+        // --- Botón Buscar Rutina por nombre ---
+        btnbuscarnombre.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                esconderTeclado(getContext(), getView());
+
+                if (txtnombre.getText().toString().isEmpty()){
+                    Toast.makeText(getContext(), "¡ No ha ingresado un nombre de rutina !", Toast.LENGTH_SHORT).show();
+                } else {
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference reference = database.getReference("Rutinas");
+                    Query query = reference.orderByChild("nombre").equalTo(txtnombre.getText().toString());
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for(DataSnapshot ds : dataSnapshot.getChildren()){
+                                Rutina r = ds.getValue(Rutina.class);
+                                r.setId(ds.getKey());
+                                if(!RutinaService.rutinaList.contains(r)){
+                                    RutinaService.addRutina(r);
+                                    rc.getAdapter().notifyDataSetChanged();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    Toast.makeText(getContext(), "¡ Búsqueda terminada !", Toast.LENGTH_SHORT).show();
+                    clear();
+                }
+            }
+        });
+        // --- ---
+
+        // --- Botón Buscar Rutina por dificultad ---
+
+        spinnerdificultad.setOnItemSelectedListener (new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                esconderTeclado(getContext(), getView());
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference reference = database.getReference("Rutinas");
+                Query query = reference.orderByChild("dificultad").equalTo(spinnerdificultad.getSelectedItem().toString());
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ds : dataSnapshot.getChildren()){
+                            Rutina r = ds.getValue(Rutina.class);
+                            r.setId(ds.getKey());
+                            if(!RutinaService.rutinaList.contains(r)){
+                                RutinaService.addRutina(r);
+                                    rc.getAdapter().notifyDataSetChanged();
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    if( position>0){
+                        btncancelar.setVisibility(View.VISIBLE);
+                        Toast.makeText(getContext(), "¡Búsqueda terminada!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        RutinaService.rutinaList.clear();
+                        rc.getAdapter().notifyDataSetChanged();
+                    }
+                    clear();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                esconderTeclado(getContext(), getView());
+            }
+
+        });
+
+        btncancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RutinaService.rutinaList.clear();
+                rc.getAdapter().notifyDataSetChanged();
+                spinnerdificultad.setSelection(0);
+            }
+        });
+
+        // --- Botón Limpiar Listado ---
+        btnlimpiarrutinas.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                RutinaService.rutinaList.clear();
+                rc.getAdapter().notifyDataSetChanged();
+                clear();
+            }
+        });
+        // --- ---
+
         return view;
     }
 
@@ -149,62 +232,14 @@ public class RutinasFragment extends Fragment {
             }
         });
     }
-
     // --- ---
 
-    // --- Método que recibirá al cargar una foto ---
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (txtnombre.getText().toString().isEmpty() && txtdescripcion.getText().toString().isEmpty() && spinnerdificultad.getSelectedItem().toString().contains("Seleccione")){
-            Toast.makeText(getActivity(), "Ingrese Nombre, Descripción y Dificultad para la Rutina", Toast.LENGTH_SHORT).show();
-        } else {
-            // --- Parámetros de Conexión al Storage ---
-            StorageReference storage = FirebaseStorage.getInstance().getReference(); //Inicializa el Storage de Firebase.
-            StorageReference folder = storage.child("IMG_Rutinas"); //Crea carpeta donde se guardará la imagen.
-            StorageReference photo = folder.child(new Date().toString().trim()+""+txtnombre.getText().toString()); //Crea el nombre de la imagen.
-            // --- ---
-
-            switch (requestCode) {
-                // --- Caso Usuario accede a la Galería ---
-                case PrincipalActivity.CODE_GALLERY:
-                    if (data != null) {
-                        uri_foto = data.getData();
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri_foto);
-                            foto.setImageBitmap(bitmap);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        // --- Proceso de Insert de la imagen ---
-                        photo.putFile(uri_foto).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                                while (!uriTask.isSuccessful()) ;
-                                Uri downloadUri = uriTask.getResult();
-
-                                Rutina rutina = new Rutina();
-                                rutina.setId(new Date().toString().trim()+"_"+txtnombre.getText().toString());
-                                rutina.setNombre(txtnombre.getText().toString());
-                                rutina.setDescripcion(txtdescripcion.getText().toString());
-                                rutina.setDificultad(spinnerdificultad.getSelectedItem().toString());
-                                rutina.setUrl_foto(downloadUri.toString()); //Ingresa la URL de la Foto a la rutina.
-
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference reference = database.getReference("Rutinas");
-                                reference.push().setValue(rutina);
-                            }
-                        });
-                        // --- Fin Proceso de Insert de la imagen ---
-                    }
-                    break;
-                // --- Fin Caso Usuario accede a la Galería ---
-            }
-        }
+    public void esconderTeclado(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-    // --- ---
+
+    public void clear() {
+        txtnombre.setText("");
+    }
 }

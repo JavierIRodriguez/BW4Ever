@@ -55,86 +55,56 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
-    public void getParques(){
-        mDatabase =FirebaseDatabase.getInstance().getReference();
-
-        /*Parque parque = new Parque();
-        parque.setNombre("UCM");
-        parque.setLatitud(-35.4355136);
-        parque.setLongitud(-71.6200548);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Parques");
-        reference.push().setValue(parque);*/
+    public void getParques() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mDatabase.child("Parques").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Parque p = new Parque();
                         p.setNombre(ds.child("nombre").getValue().toString());
                         p.setLatitud(Double.parseDouble(ds.child("latitud").getValue().toString()));
                         p.setLongitud(Double.parseDouble(ds.child("longitud").getValue().toString()));
                         parquesList.add(p);
                     }
-                    for (Parque p: parquesList) {
+                    for (Parque p : parquesList) {
                         LatLng l = new LatLng(p.getLatitud(), p.getLongitud());
                         mMap.addMarker(new MarkerOptions().position(l).title(p.getNombre()));
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
 
-    private void getLocation(){
-        // Here, thisActivity is the current activity
+    private void getLocation() {
         if (ContextCompat.checkSelfPermission(this.getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Permission is not granted
-            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
+
             } else {
-                // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(this.getActivity(),
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_FINE_LOCATION);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         } else {
-            // Permission has already been granted
+
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this.getActivity(), new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                             /*   Parque parque = new Parque();
-                                parque.setNombre("Tu Ubicación");
-                                parque.setLatitud(location.getLatitude());
-                                parque.setLongitud(location.getLongitude());
-
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference reference = database.getReference("Parques");
-                                reference.push().setValue(parque);*/
-                            }
                         }
                     });
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -154,12 +124,21 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
             }
         }
     }
-
-   @Override
-   public void onMapReady(GoogleMap googleMap) {
-       mMap = googleMap;
-       mMap.setMyLocationEnabled(true);
-       mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
            @Override
            public void onMyLocationChange(Location location) {
                CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
@@ -168,5 +147,4 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
                mMap.animateCamera(zoom);
            }
        });}
-
 }

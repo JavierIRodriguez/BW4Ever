@@ -186,7 +186,4 @@
         android:layout_gravity="right"
         tools:ignore="OnClick" />
 
-
-
-
 </LinearLayout>

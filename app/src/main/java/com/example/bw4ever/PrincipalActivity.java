@@ -35,7 +35,6 @@ public class PrincipalActivity extends AppCompatActivity {
     // --- Fragments del Layout ---
     private RutinasFragment rutinasFragment;
     // --- ---
-
     public static final int CODE_GALLERY= 1; //Constante de Acción para acceder a galería, al agregar Rutinas.
 
     FirebaseAuth firebaseAuth;
@@ -60,7 +59,6 @@ public class PrincipalActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_rutinas);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_opciones);
 
-        //setTitle("BW4Ever - "+ firebaseAuth.getCurrentUser().getEmail() ); //Coloca título.
         setTitle("BW4Ever - "+ firebaseAuth.getCurrentUser().getDisplayName() ); //Coloca título.
     }
 

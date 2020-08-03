@@ -21,7 +21,6 @@
             android:gravity="left"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <EditText
@@ -34,7 +33,7 @@
         android:textSize="20sp"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="12dp"
-        android:layout_below="@id/title" />
+        android:layout_below="@id/title"/>
 
     <TextView
         android:id="@+id/tv_direccion"
@@ -45,9 +44,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginLeft="12dp"
         android:textSize="20sp"
-        android:layout_below="@id/txtnombreparque"
-
-        />
+        android:layout_below="@id/txtnombreparque"/>
 
 
     <ImageView

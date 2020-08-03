@@ -5,5 +5,5 @@
     android:theme="@style/ThemeOverlay.AppCompat.Light"
     android:textSize="24sp"
     android:textColor="#ffffff"
-    android:padding="10sp"
+    android:padding="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android" />

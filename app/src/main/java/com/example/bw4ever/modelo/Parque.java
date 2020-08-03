@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 public class Parque {
     private String id;
     private String nombre;
+    private String direccion;
     private double latitud;
     private double longitud;
     private String url_foto;
@@ -42,6 +43,14 @@ public class Parque {
 
     public void setLongitud(double longitud) {
         this.longitud = longitud;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public String getUrl_foto() {

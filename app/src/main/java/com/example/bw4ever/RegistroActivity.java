@@ -3,11 +3,14 @@ package com.example.bw4ever;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -50,7 +53,6 @@ public class RegistroActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
-
     }
 
     public boolean checkEmail (String _correo){
@@ -65,28 +67,31 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     public void registrarUsuario(View view) {
+        esconderTeclado(this, view);
+
         final String nombre = txtNombre.getText().toString();
         final String correo = txtCorreo.getText().toString();
         final String password = txtPassword.getText().toString();
         final String confPass = txtConf.getText().toString();
 
         if(!checkEmail(correo)){
-            Toast.makeText(this, "Debe ingresar un correo válido!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "¡ Debe ingresar un correo válido !", Toast.LENGTH_SHORT).show();
         }
         else {
             if (!password.equals(confPass)) {
-                Toast.makeText(this, "Las contraseñas deben coincidir!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "¡ Las contraseñas deben coincidir !", Toast.LENGTH_SHORT).show();
             } else {
                 if (correo.isEmpty() || nombre.isEmpty() || password.isEmpty() || password.length() < 6) {
-                    Toast.makeText(this, "Verifique datos!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "¡ Verifique datos ingresados !", Toast.LENGTH_SHORT).show();
                 } else {
-                    progressDialog.setMessage("Conectando con la Base de Datos...");
+                    progressDialog.setMessage("Conectando con la Base de Datos ...");
                     progressDialog.show();
 
                     firebaseAuth.createUserWithEmailAndPassword(correo, password)
                             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
+                                    boolean registroCorrecto = false;
                                     if (task.isSuccessful()) {
                                         usuario=firebaseAuth.getInstance().getCurrentUser();
                                         String id =usuario.getUid();
@@ -94,7 +99,8 @@ public class RegistroActivity extends AppCompatActivity {
                                         setDisplayName();
                                         guardarUsuario(id, nombre, correo, password);
 
-                                        Toast.makeText(RegistroActivity.this, "Usuario registrado con exito!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegistroActivity.this, "¡ Te has registrado con éxito !", Toast.LENGTH_SHORT).show();
+                                        registroCorrecto = true;
                                     } else {
                                         if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                             Toast.makeText(RegistroActivity.this, "Este correo ya se encuentra registrado!", Toast.LENGTH_SHORT).show();
@@ -103,6 +109,13 @@ public class RegistroActivity extends AppCompatActivity {
                                         }
                                     }
                                     progressDialog.dismiss();
+
+                                    // --- Si el Usuario se registró, se devolverá a la Pantalla de Login ---
+                                    if (registroCorrecto == true){
+                                        onBackPressed();
+                                        finish();
+                                    }
+                                    // --- ---
                                 }
                             });
                 }
@@ -115,7 +128,6 @@ public class RegistroActivity extends AppCompatActivity {
         if(user!=null) {
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(txtNombre.getText().toString())
-                    //.setPhotoUri(Uri.parse("https://firebasestorage.googleapis.com/v0/b/bw4ever-3ce30.appspot.com/o/IMG_Users%2Fnew_user.png?alt=media&token=7feaecc0-cb58-4440-a933-736ac02c2c65"))
                     .build();
 
             user.updateProfile(profileUpdates)
@@ -140,5 +152,10 @@ public class RegistroActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mDatabase.child("Usuarios").child(userId).setValue(user);
+    }
+
+    public void esconderTeclado(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

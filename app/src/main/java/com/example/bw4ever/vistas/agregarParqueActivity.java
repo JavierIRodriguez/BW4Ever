@@ -45,7 +45,7 @@ public class agregarParqueActivity extends AppCompatActivity {
     Button btngaleria;
     TextView direccion;
     Uri uri_foto;
-    Double longitud, latitud; //Estas las variables que guardan las coordenadas para luego mandarlas a la base de datos.
+    Double longitud, latitud; //Estas son las variables que guardan las coordenadas para luego mandarlas a la base de datos.
     String URLfoto="null";
     private SharedPreferences fotoSharedPreference; //Guarda la foto, para sacarla del proceso de Firebase.
 
@@ -92,8 +92,6 @@ public class agregarParqueActivity extends AppCompatActivity {
 
     public void registrarParque(View view) throws Exception {
         final String nombre = txtnombre.getText().toString();
-        final Double lat = latitud;
-        final Double lon = longitud;
         final String foto = fotoSharedPreference.getString("Uri", "NULL"); // Busca el valor según la key, sino encuentra nada, setea el valor "NULL".
         if(nombre.isEmpty()){
             Toast.makeText(this, "Debe ingresar un Nombre!", Toast.LENGTH_SHORT).show();
@@ -102,12 +100,9 @@ public class agregarParqueActivity extends AppCompatActivity {
                 Toast.makeText(this, "Debe cargar una fotografía!", Toast.LENGTH_SHORT).show();
             }
             else{
-                //si se cargó la foto, y se ingresó el nombre, deberia ir acá lo de generar un correo y un json con lat, long, nombre y foto.
-                //Toast.makeText(this, foto, Toast.LENGTH_SHORT).show();
                 URLfoto=foto;
                 sendMail(); //Acá se manda el correo, despues de esto deberia cerrar y cambiar a la vista de mapas nuevamente.
             }
-
         }
     }
 

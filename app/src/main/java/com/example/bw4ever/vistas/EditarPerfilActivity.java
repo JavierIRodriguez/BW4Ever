@@ -68,10 +68,10 @@ public class EditarPerfilActivity extends AppCompatActivity {
         final EditText passwd= new EditText(EditarPerfilActivity.this);
         AlertDialog.Builder passwordDialog = new AlertDialog.Builder(EditarPerfilActivity.this);
         passwordDialog.setTitle("¿Confirmas que deseas actualizar tus datos?");
-        passwordDialog.setMessage("Escribe tu Contraseña Actual");
+        passwordDialog.setMessage("Escribe tu contraseña actual");
         passwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
         passwordDialog.setView(passwd);
-        passwordDialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+        passwordDialog.setPositiveButton("Si, confirmo.", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String contraseña = passwd.getText().toString();
@@ -83,13 +83,13 @@ public class EditarPerfilActivity extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(EditarPerfilActivity.this, "Contraseña Verificada" ,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditarPerfilActivity.this, "Contraseña verificada. Ahora puede cambiar sus datos." ,Toast.LENGTH_SHORT).show();
                                 Log.d("TESTING", "User re-authenticated.");
                             }
                         });
                     }
                 });
-                passwordDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                passwordDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 

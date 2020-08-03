@@ -83,9 +83,9 @@ public class LoginActivity extends AppCompatActivity {
         final EditText resetMail = new EditText(view.getContext());
         AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(view.getContext());
         passwordResetDialog.setTitle("¿Deseas restablecer la contraseña?");
-        passwordResetDialog.setMessage("Ingresa tu correo para recibir el enlace para restablecer tu contraseña.");
+        passwordResetDialog.setMessage("Ingresa tu correo para recibir las instrucciones para restablecerla.");
         passwordResetDialog.setView(resetMail);
-        passwordResetDialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+        passwordResetDialog.setPositiveButton("Sí, Confirmo", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String correo = resetMail.getText().toString();
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
-        passwordResetDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        passwordResetDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

@@ -31,7 +31,7 @@ public class RutinaAdapter extends RecyclerView.Adapter<RutinaAdapter.RutinaHold
     @NonNull
     @Override
     public RutinaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(item_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(item_layout, parent,false);
         return new RutinaHolder(view);
     }
 
@@ -56,7 +56,6 @@ public class RutinaAdapter extends RecyclerView.Adapter<RutinaAdapter.RutinaHold
         ListView listejercicios;
         public RutinaHolder(@NonNull View itemView) {
             super(itemView);
-            //inicializar
             txtnombre = itemView.findViewById(R.id.item_nombre);
             txtdificultad = itemView.findViewById(R.id.item_dificultad);
             txtdescripcion = itemView.findViewById(R.id.item_descripcion);

@@ -121,5 +121,4 @@
         android:textAllCaps="false"
         tools:ignore="OnClick" />
 
-
 </RelativeLayout>

@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bw4ever.R;
 import com.example.bw4ever.modelo.Parque;
 
@@ -36,8 +38,8 @@ public class ParqueAdapter extends RecyclerView.Adapter<ParqueAdapter.ParqueHold
     public void onBindViewHolder(@NonNull ParqueHolder holder, int position) {
         Parque parque = listaparques.get(position);
         holder.txtnombre.setText(parque.getNombre());
-        holder.txtlatitud.setText(String.valueOf(parque.getLatitud()));
-        holder.txtlongitud.setText(String.valueOf(parque.getLongitud()));
+        holder.txtdireccion.setText(parque.getDireccion());
+        Glide.with(activity).load(parque.getUrl_foto()).into(holder.imgparque);
     }
 
     @Override
@@ -46,13 +48,13 @@ public class ParqueAdapter extends RecyclerView.Adapter<ParqueAdapter.ParqueHold
     }
 
     public class ParqueHolder extends RecyclerView.ViewHolder{
-        TextView txtnombre, txtlatitud, txtlongitud;
+        TextView txtnombre, txtdireccion;
+        ImageView imgparque;
         public ParqueHolder(@NonNull View itemView) {
             super(itemView);
             txtnombre = itemView.findViewById(R.id.item_nombreparque);
-            txtlatitud = itemView.findViewById(R.id.item_latitud);
-            txtlongitud = itemView.findViewById(R.id.item_longitud);
+            txtdireccion = itemView.findViewById(R.id.item_direccion);
+            imgparque= itemView.findViewById(R.id.item_fotoparque);
         }
     }
 }
-
